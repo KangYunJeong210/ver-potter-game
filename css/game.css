@@ -38,7 +38,9 @@
   width: 86%;
   max-width: 520px;
   height: auto;
-  object-fit: contain;
+  object-fit: contain;     /* 전체 보이게 */
+  object-position: center; /* 가운데 정렬 */
+  display: block;
   filter: drop-shadow(0 22px 28px rgba(0,0,0,.35));
   transform: translateY(2px);
 }
@@ -235,3 +237,4 @@
   .portrait{ min-height: 180px; }
   .text{ min-height: 66px; }
 }
+
