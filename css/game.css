@@ -242,5 +242,59 @@
 }
 
 
+/* 캐릭터 프레임(이미지 컨테이너) */
+.portrait,
+.portrait-wrap,
+.character-frame,
+#portraitWrap {
+  height: clamp(360px, 52vh, 620px); /* 모바일에서 확 커짐 */
+  width: 100%;
+}
 
+/* 이미지 자체 */
+.portrait img,
+.portrait-wrap img,
+.character-frame img,
+#portraitImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;         /* 안 잘리고 전체 보이게 */
+  object-position: center top; /* 얼굴이 위에 있으면 위쪽 우선 */
+  display: block;
+}
+/* 화면 전체 레이아웃이 세로로 꽉 차도록 */
+.game-screen,
+#game,
+.main {
+  height: 100dvh;          /* 모바일 주소창 변화 대응 */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;        /* 전체가 흔들리지 않게 */
+}
+
+/* 위: 캐릭터, 아래: 대사+선택지 */
+.dialogue-panel,
+#dialoguePanel,
+.ui-panel {
+  flex: 1;
+  min-height: 0;           /* 스크롤이 제대로 먹게 하는 필수 옵션 */
+  display: flex;
+  flex-direction: column;
+}
+
+/* 선택지 리스트: 여기만 스크롤 */
+.choices,
+.choice-list,
+#choices {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 12px;    /* 마지막 버튼 여백 */
+}
+
+/* 스크롤바 숨기고 싶으면(옵션) */
+.choices::-webkit-scrollbar,
+.choice-list::-webkit-scrollbar,
+#choices::-webkit-scrollbar { width: 0; height: 0; }
 
