@@ -21,7 +21,9 @@
 .portrait{
   margin:0;
   flex: 1;
-  min-height: 220px;
+ height: 55vh;  
+   max-height: 520px;
+  min-height: 360px;
   border-radius: var(--radius2);
   border: 1px solid rgba(255,255,255,.08);
   background:
@@ -238,6 +240,7 @@
   .portrait{ min-height: 330px; }
   .text{ min-height: 66px; }
 }
+
 
 
 
