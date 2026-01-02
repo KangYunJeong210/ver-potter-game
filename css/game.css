@@ -263,3 +263,15 @@
 /* (옵션) 선택지 스크롤바 숨기기 */
 .choices::-webkit-scrollbar { width: 0; height: 0; }
 
+/* ✅ 게임 화면에서는 중앙정렬 말고 꽉 채우기 */
+.screen-game{
+  align-items: stretch !important;
+  justify-content: stretch !important;
+}
+.dialog{
+  display:flex;
+  flex-direction:column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
