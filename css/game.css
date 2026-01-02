@@ -3,27 +3,30 @@
    Game screen styling (VN UI)
 -------------------------------- */
 
+/* ✅ 게임 화면: 모바일에서 높이 계산 안정화 */
 .screen-game{
   align-items: stretch;
   justify-content: center;
 }
 
+/* ✅ stage가 화면 높이를 확실히 잡아야 내부 스크롤이 먹음 */
 .stage{
   width: min(720px, 100%);
-  height: 100%;
+  height: 100dvh;                 /* 핵심 */
   display:flex;
   flex-direction:column;
   gap: 14px;
   padding-bottom: calc(12px + var(--safe-bottom));
+  overflow: hidden;               /* 전체 페이지가 아니라 내부만 스크롤 */
 }
 
 /* Portrait (top) */
 .portrait{
   margin:0;
-  flex: 1;
- height: 55vh;  
-   max-height: 520px;
-  min-height: 360px;
+  /* flex: 1;  <- 이미지 영역이 너무 커지는 걸 막기 위해 고정 높이 위주로 */
+  height: clamp(360px, 52vh, 620px); /* 모바일에서 크게 */
+  width: 100%;
+
   border-radius: var(--radius2);
   border: 1px solid rgba(255,255,255,.08);
   background:
@@ -37,15 +40,15 @@
 }
 
 .portrait img{
-  width: 86%;
-  max-width: 520px;
-  height: auto;
-  object-fit: contain;     /* 전체 보이게 */
-  object-position: center; /* 가운데 정렬 */
+  width: 100%;
+  height: 100%;
+  object-fit: contain;           /* 안 잘리고 전체 보이게 */
+  object-position: center top;   /* 얼굴이 위면 위쪽 우선 */
   display: block;
+
   filter: drop-shadow(0 22px 28px rgba(0,0,0,.35));
   transform: translateY(2px);
-   margin-top:80px;
+  /* margin-top 같은 강제 이동은 크롭/스크롤 문제를 만들기 쉬워서 제거 */
 }
 
 .portrait-caption{
@@ -71,6 +74,13 @@
   box-shadow: var(--shadow);
   padding: 14px 14px 12px;
   backdrop-filter: blur(14px);
+
+  /* ✅ 선택지 스크롤을 살리기 위한 flex 컨테이너화 */
+  display:flex;
+  flex-direction:column;
+  flex: 1;         /* portrait 아래 남는 영역 */
+  min-height: 0;   /* 스크롤 핵심 */
+  overflow: hidden;
 }
 
 .speaker-row{
@@ -101,14 +111,22 @@
   padding: 2px 2px 12px;
   min-height: 80px;
   word-break: keep-all;
+  /* ✅ 텍스트가 너무 길어져도 선택지 스크롤을 방해하지 않게 */
+  flex: 0 0 auto;
 }
 
-/* Choices */
+/* Choices (✅ 여기만 스크롤) */
 .choices{
   display:flex;
   flex-direction:column;
   gap: 10px;
-  margin-bottom: 12px;
+
+  flex: 1;               /* 남는 공간 전부 차지 */
+  min-height: 0;         /* 스크롤 핵심 */
+  overflow-y: auto;      /* ✅ 선택지 영역 스크롤 */
+  -webkit-overflow-scrolling: touch;
+
+  padding-bottom: 12px;  /* 마지막 버튼 여백 */
 }
 
 .choice{
@@ -153,8 +171,7 @@
   border-color: rgba(255,255,255,.18);
 }
 
-/* Choice type subtle coloring via emoji tag text only
-   (JS에서 data-type 넣으면 더 세밀하게 가능) */
+/* Choice type subtle coloring via emoji tag text only */
 .choice[data-type="canon"] .tag{ border-color: rgba(127,240,177,.25); }
 .choice[data-type="warn"]  .tag{ border-color: rgba(255,210,122,.25); }
 .choice[data-type="dark"]  .tag{ border-color: rgba(255,124,143,.25); }
@@ -165,6 +182,7 @@
   display:flex;
   gap: 10px;
   justify-content:space-between;
+  flex: 0 0 auto;
 }
 
 /* Log list */
@@ -237,64 +255,9 @@
 
 /* Super small height devices */
 @media (max-height: 670px){
-  .portrait{ min-height: 330px; }
+  .portrait{ height: clamp(320px, 46vh, 520px); }
   .text{ min-height: 66px; }
 }
 
-
-/* 캐릭터 프레임(이미지 컨테이너) */
-.portrait,
-.portrait-wrap,
-.character-frame,
-#portraitWrap {
-  height: clamp(360px, 52vh, 620px); /* 모바일에서 확 커짐 */
-  width: 100%;
-}
-
-/* 이미지 자체 */
-.portrait img,
-.portrait-wrap img,
-.character-frame img,
-#portraitImg {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;         /* 안 잘리고 전체 보이게 */
-  object-position: center top; /* 얼굴이 위에 있으면 위쪽 우선 */
-  display: block;
-}
-/* 화면 전체 레이아웃이 세로로 꽉 차도록 */
-.game-screen,
-#game,
-.main {
-  height: 100dvh;          /* 모바일 주소창 변화 대응 */
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;        /* 전체가 흔들리지 않게 */
-}
-
-/* 위: 캐릭터, 아래: 대사+선택지 */
-.dialogue-panel,
-#dialoguePanel,
-.ui-panel {
-  flex: 1;
-  min-height: 0;           /* 스크롤이 제대로 먹게 하는 필수 옵션 */
-  display: flex;
-  flex-direction: column;
-}
-
-/* 선택지 리스트: 여기만 스크롤 */
-.choices,
-.choice-list,
-#choices {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 12px;    /* 마지막 버튼 여백 */
-}
-
-/* 스크롤바 숨기고 싶으면(옵션) */
-.choices::-webkit-scrollbar,
-.choice-list::-webkit-scrollbar,
-#choices::-webkit-scrollbar { width: 0; height: 0; }
-
+/* (옵션) 선택지 스크롤바 숨기기 */
+.choices::-webkit-scrollbar { width: 0; height: 0; }
