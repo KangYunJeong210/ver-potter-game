@@ -46,7 +46,8 @@ body{
   background: radial-gradient(1200px 900px at 30% 0%, #15235a 0%, rgba(7,10,20,0) 58%),
               radial-gradient(900px 700px at 90% 20%, #2a1a55 0%, rgba(7,10,20,0) 55%),
               linear-gradient(180deg, var(--bg1), var(--bg0));
-  overflow:hidden; /* 게임: 화면 고정 */
+   overflow-y: auto;   /* ✅ 전체 화면 스크롤 허용 */
+  overflow-x: hidden;
 }
 
 a{ color:inherit; text-decoration:none; }
@@ -55,9 +56,9 @@ img{ max-width:100%; display:block; }
 
 .app{
   position:relative;
-  height:100%;
+  min-height:100%;
   width:100%;
-  overflow:hidden;
+  overflow: visible;
 }
 
 /* Background layers */
@@ -408,4 +409,5 @@ img{ max-width:100%; display:block; }
   .stat-label{ font-size:10px; }
   .btn{ padding: 13px 13px; }
 }
+
 
