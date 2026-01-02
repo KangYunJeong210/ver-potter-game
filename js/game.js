@@ -1,5 +1,5 @@
 // js/game.js
-const API_URL = "https://YOUR-VERCEL-DOMAIN.vercel.app/api/story";
+const API_URL = "https://ver-potter-api.vercel.app/api/story";
 
 const els = {
   screenTitle: document.getElementById("screenTitle"),
@@ -226,3 +226,4 @@ function showEnding(ending) {
 // ✅ 각 선택 버튼 클릭 직후(혹은 renderScene 후) 자동 저장하고 싶으면,
 // choice 클릭 핸들러 마지막에 한 줄 추가:
 // window.StorageAPI?.save?.(window.__getGameState?.());
+
