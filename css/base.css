@@ -2,7 +2,7 @@
 /* -----------------------------
    Base: tokens, reset, layout
 -------------------------------- */
-
+html, body { height: 100%; }
 :root{
   --bg0:#070a14;
   --bg1:#0b1020;
@@ -408,3 +408,4 @@ img{ max-width:100%; display:block; }
   .stat-label{ font-size:10px; }
   .btn{ padding: 13px 13px; }
 }
+
