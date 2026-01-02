@@ -1,36 +1,29 @@
 /* css/game.css */
-/* -----------------------------
-   Game screen styling (VN UI)
--------------------------------- */
+/* ============================
+   VN Game UI – Full page scroll
+============================= */
 
-/* ✅ 게임 화면: 모바일에서 높이 계산 안정화 */
 .screen-game{
-  align-items: stretch;
+  align-items: center;
   justify-content: center;
 }
 
-/* ✅ stage가 화면 높이를 확실히 잡아야 내부 스크롤이 먹음 */
-
- .stage{
+/* Stage = 카드 컨테이너 */
+.stage{
   width: min(720px, 100%);
   display:flex;
   flex-direction:column;
-  gap: 14px;
-  padding-bottom: calc(12px + var(--safe-bottom));       /* 유지 */
-  min-height: 0; 
-    width: min(720px, 100%);
-  display:flex;
-  flex-direction:column;
-  gap: 14px;
-  padding-bottom: calc(12px + var(--safe-bottom));/* ✅ 스크롤 계산 핵심 */
+  gap: 16px;
+  padding-bottom: calc(20px + var(--safe-bottom));
 }
-/* Portrait (top) */
-.portrait{
-  margin:0;
-  /* flex: 1;  <- 이미지 영역이 너무 커지는 걸 막기 위해 고정 높이 위주로 */
-  height: clamp(360px, 52vh, 620px); /* 모바일에서 크게 */
-  width: 100%;
 
+/* ============================
+   Character Portrait
+============================= */
+
+.portrait{
+  width: 100%;
+  height: clamp(360px, 55vh, 680px);
   border-radius: var(--radius2);
   border: 1px solid rgba(255,255,255,.08);
   background:
@@ -46,13 +39,10 @@
 .portrait img{
   width: 100%;
   height: 100%;
-  object-fit: contain;           /* 안 잘리고 전체 보이게 */
-  object-position: center top;   /* 얼굴이 위면 위쪽 우선 */
-  display: block;
-
+  object-fit: contain;
+  object-position: center top;
+  display:block;
   filter: drop-shadow(0 22px 28px rgba(0,0,0,.35));
-  transform: translateY(2px);
-  /* margin-top 같은 강제 이동은 크롭/스크롤 문제를 만들기 쉬워서 제거 */
 }
 
 .portrait-caption{
@@ -70,21 +60,20 @@
   backdrop-filter: blur(10px);
 }
 
-/* Dialog */
+/* ============================
+   Dialogue Card
+============================= */
+
 .dialog{
   border-radius: var(--radius2);
   background: rgba(15,23,48,.62);
   border: 1px solid rgba(255,255,255,.10);
   box-shadow: var(--shadow);
-  padding: 14px 14px 12px;
+  padding: 16px;
   backdrop-filter: blur(14px);
-
-  /* ✅ 선택지 스크롤을 살리기 위한 flex 컨테이너화 */
-  display:flex;
-  flex-direction:column;
-
 }
 
+/* Speaker */
 .speaker-row{
   display:flex;
   align-items:center;
@@ -106,39 +95,35 @@
   justify-content:flex-end;
 }
 
+/* Text */
 .text{
   font-size: 15px;
-  line-height: 1.6;
+  line-height: 1.65;
   color: rgba(233,238,255,.92);
-  padding: 2px 2px 12px;
+  padding: 2px 2px 14px;
   min-height: 80px;
   word-break: keep-all;
-  /* ✅ 텍스트가 너무 길어져도 선택지 스크롤을 방해하지 않게 */
-  flex: 0 0 auto;
 }
 
-/* Choices (✅ 여기만 스크롤) */
+/* ============================
+   Choices (no internal scroll)
+============================= */
+
 .choices{
   display:flex;
   flex-direction:column;
-  gap: 10px;
-
-  flex: 1;               /* 남는 공간 전부 차지 */
-  min-height: 0;         /* 스크롤 핵심 */
-  overflow-y: auto;      /* ✅ 선택지 영역 스크롤 */
-  -webkit-overflow-scrolling: touch;
-
-  padding-bottom: 12px;  /* 마지막 버튼 여백 */
+  gap: 12px;
+  margin-top: 6px;
 }
 
 .choice{
   width:100%;
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:12px;
   text-align:left;
 
-  padding: 14px 14px;
+  padding: 16px;
   border-radius: 18px;
   border: 1px solid rgba(255,255,255,.12);
   background: rgba(255,255,255,.05);
@@ -146,48 +131,44 @@
 
   font-weight: 800;
   letter-spacing:.01em;
+  line-height:1.25;
 
   transition: transform .12s ease, background .12s ease, border-color .12s ease;
+}
+
+.choice:active{
+  transform: scale(.98);
+  background: rgba(255,255,255,.07);
+  border-color: rgba(255,255,255,.18);
 }
 
 .choice .tag{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  width: 38px;
-  height: 28px;
-  border-radius: 12px;
-  font-size: 13px;
+  width: 40px;
+  height: 30px;
+  border-radius: 14px;
+  font-size: 14px;
   border: 1px solid rgba(255,255,255,.12);
-  background: rgba(0,0,0,.14);
+  background: rgba(0,0,0,.18);
+  flex-shrink:0;
 }
 
 .choice .label{
   flex:1;
-  line-height: 1.25;
 }
 
-.choice:active{
-  transform: scale(.99);
-  background: rgba(255,255,255,.07);
-  border-color: rgba(255,255,255,.18);
-}
+/* Choice tone */
+.choice[data-type="canon"] .tag{ border-color: rgba(127,240,177,.35); }
+.choice[data-type="warn"]  .tag{ border-color: rgba(255,210,122,.35); }
+.choice[data-type="dark"]  .tag{ border-color: rgba(255,124,143,.35); }
+.choice[data-type="bait"]  .tag{ border-color: rgba(139,177,255,.35); }
 
-/* Choice type subtle coloring via emoji tag text only */
-.choice[data-type="canon"] .tag{ border-color: rgba(127,240,177,.25); }
-.choice[data-type="warn"]  .tag{ border-color: rgba(255,210,122,.25); }
-.choice[data-type="dark"]  .tag{ border-color: rgba(255,124,143,.25); }
-.choice[data-type="bait"]  .tag{ border-color: rgba(139,177,255,.25); }
+/* ============================
+   Logs & Endings
+============================= */
 
-/* Dialog actions */
-.dialog-actions{
-  display:flex;
-  gap: 10px;
-  justify-content:space-between;
-  flex: 0 0 auto;
-}
-
-/* Log list */
 .log-list{
   display:flex;
   flex-direction:column;
@@ -196,16 +177,18 @@
 
 .log-item{
   border-radius: 18px;
-  padding: 12px 12px;
+  padding: 12px;
   border: 1px solid rgba(255,255,255,.10);
   background: rgba(255,255,255,.04);
 }
+
 .log-item .who{
   font-size: 12px;
   font-weight: 900;
   color: rgba(233,238,255,.86);
   margin-bottom: 6px;
 }
+
 .log-item .say{
   margin:0;
   color: rgba(233,238,255,.80);
@@ -213,22 +196,23 @@
   font-size: 14px;
 }
 
-/* Endings grid */
+/* Ending cards */
 .ending-grid{
   display:grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 12px;
 }
 
 .ending-card{
   border-radius: 18px;
-  padding: 12px 12px;
+  padding: 14px;
   border: 1px solid rgba(255,255,255,.10);
   background: rgba(255,255,255,.04);
 }
+
 .ending-card .type{
   display:inline-flex;
-  padding: 6px 9px;
+  padding: 6px 10px;
   border-radius: 999px;
   font-size: 11px;
   font-weight: 900;
@@ -236,11 +220,13 @@
   border: 1px solid rgba(255,255,255,.12);
   color: rgba(233,238,255,.78);
 }
+
 .ending-card .name{
   margin: 10px 0 6px;
   font-size: 15px;
   font-weight: 900;
 }
+
 .ending-card .desc{
   margin:0;
   font-size: 12px;
@@ -248,30 +234,16 @@
   color: rgba(233,238,255,.65);
 }
 
-/* Wider screens (tablet) */
+/* ============================
+   Responsive
+============================= */
+
 @media (min-width: 740px){
-  .stage{ gap: 16px; }
-  .text{ font-size: 16px; min-height: 92px; }
-  .choice{ padding: 15px 16px; }
+  .text{ font-size: 16px; }
+  .choice{ padding: 18px; }
 }
 
-/* Super small height devices */
 @media (max-height: 670px){
   .portrait{ height: clamp(320px, 46vh, 520px); }
-  .text{ min-height: 66px; }
+  .text{ min-height: 64px; }
 }
-
-/* (옵션) 선택지 스크롤바 숨기기 */
-.choices::-webkit-scrollbar { width: 0; height: 0; }
-
-/* ✅ 게임 화면에서는 중앙정렬 말고 꽉 채우기 */
-.screen-game{
-  align-items: stretch !important;
-  justify-content: stretch !important;
-}
-.dialog{
-  display:flex;
-  flex-direction:column;
- 
-}
-
