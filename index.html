@@ -1,0 +1,240 @@
+<!-- index.html  (Mobile-first: 선택형 스토리 게임 UI + 스크립트 연결까지) -->
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Ver Potter: Divergence</title>
+  <meta name="theme-color" content="#0b0f1c" />
+
+  <!-- Fonts (optional) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="./css/base.css" />
+  <link rel="stylesheet" href="./css/title.css" />
+  <link rel="stylesheet" href="./css/game.css" />
+</head>
+
+<body>
+  <div id="app" class="app">
+
+    <!-- ===================== BG LAYER ===================== -->
+    <div class="bg">
+      <!-- 배경 이미지/영상/캔버스 넣고 싶으면 여기 -->
+      <div class="bg-vignette"></div>
+      <div class="bg-grain"></div>
+    </div>
+
+    <!-- ===================== HEADER (GAME HUD) ===================== -->
+    <header class="hud" aria-label="Game HUD">
+      <div class="hud-top">
+        <button class="icon-btn" id="btnMenu" aria-label="Menu">
+          <span class="i-lines"></span>
+        </button>
+
+        <div class="hud-title">
+          <p class="hud-sub">Ver Potter: Divergence</p>
+          <h1 class="hud-chapter" id="hudChapter">PROLOGUE</h1>
+        </div>
+
+        <button class="icon-btn" id="btnSave" aria-label="Save">
+          <span class="i-disk"></span>
+        </button>
+      </div>
+
+      <div class="hud-bars" role="group" aria-label="Status Bars">
+        <!-- 값은 JS에서 0~10 기준으로 채움 -->
+        <div class="stat" data-key="canonity" title="Canonity">
+          <div class="stat-label">📜 정통</div>
+          <div class="bar"><i id="barCanonity"></i></div>
+        </div>
+        <div class="stat" data-key="corruption" title="Corruption">
+          <div class="stat-label">🩸 오염</div>
+          <div class="bar"><i id="barCorruption"></i></div>
+        </div>
+        <div class="stat" data-key="sanity" title="Sanity">
+          <div class="stat-label">🧠 안정</div>
+          <div class="bar"><i id="barSanity"></i></div>
+        </div>
+        <div class="stat" data-key="trust" title="Trust">
+          <div class="stat-label">🧙 신뢰</div>
+          <div class="bar"><i id="barTrust"></i></div>
+        </div>
+        <div class="stat" data-key="fate" title="Fate">
+          <div class="stat-label">☠️ 운명</div>
+          <div class="bar"><i id="barFate"></i></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===================== MAIN ===================== -->
+    <main class="main" role="main">
+
+      <!-- ===== TITLE SCREEN ===== -->
+      <section id="screenTitle" class="screen screen-title" aria-label="Title Screen">
+        <div class="title-wrap">
+          <div class="badge">MOBILE STORY GAME</div>
+          <h2 class="logo">
+            <span class="logo-top">Ver Potter</span>
+            <span class="logo-sub">Divergence</span>
+          </h2>
+          <p class="desc">
+            원작의 궤도를 따라가면 세계는 안정된다.<br>
+            벗어나면… 세계는 너를 “오류”로 인식한다.
+          </p>
+
+          <div class="title-actions">
+            <button class="btn primary" id="btnNew">새로 시작</button>
+            <button class="btn" id="btnContinue" disabled>이어서 시작</button>
+            <button class="btn ghost" id="btnEndings">모은 엔딩</button>
+          </div>
+
+          <div class="title-footer">
+            <p class="hint">※ 선택지는 매 장면 4개. 📜/⚠️/🩸/❓ 타입이 섞여 등장해요.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== GAME SCREEN ===== -->
+      <section id="screenGame" class="screen screen-game is-hidden" aria-label="Game Screen">
+        <div class="stage">
+
+          <!-- 캐릭터/장면 이미지 영역 (미연시 느낌) -->
+          <figure class="portrait" aria-label="Character Portrait">
+            <!-- 윤정이 png 넣을 거라 했으니, 파일명은 JS에서 교체하거나 아래 src만 바꿔도 됨 -->
+            <img id="portraitImg" src="./img/portrait/neutral.png" alt="Character" />
+            <figcaption class="portrait-caption" id="portraitCaption">베르</figcaption>
+          </figure>
+
+          <!-- 대사창 -->
+          <section class="dialog" aria-label="Dialog Box">
+            <div class="speaker-row">
+              <div class="speaker" id="speakerName">나 (베르)</div>
+              <div class="meta">
+                <span class="chip" id="chipTurn">Turn 1</span>
+                <span class="chip" id="chipLayer">📜 Canon</span>
+              </div>
+            </div>
+
+            <div class="text" id="dialogText">
+              <!-- JS에서 채움 -->
+              어딘가, 이 세계가 나를 싫어하는 것 같아.
+            </div>
+
+            <!-- 선택지 -->
+            <div class="choices" id="choiceList" role="group" aria-label="Choices">
+              <!-- JS에서 버튼 4개 렌더 -->
+              <button class="choice" data-choice="A">
+                <span class="tag">📜</span>
+                <span class="label">편지를 기다린다</span>
+              </button>
+              <button class="choice" data-choice="B">
+                <span class="tag">⚠️</span>
+                <span class="label">몰래 거실을 탐색한다</span>
+              </button>
+              <button class="choice" data-choice="C">
+                <span class="tag">🩸</span>
+                <span class="label">집을 빠져나간다</span>
+              </button>
+              <button class="choice" data-choice="D">
+                <span class="tag">❓</span>
+                <span class="label">이 집의 ‘비밀 방’을 찾는다</span>
+              </button>
+            </div>
+
+            <div class="dialog-actions">
+              <button class="btn tiny" id="btnBack" aria-label="Back">되돌리기</button>
+              <button class="btn tiny ghost" id="btnSkip" aria-label="Skip Text">빠르게</button>
+              <button class="btn tiny" id="btnLog" aria-label="Open Log">로그</button>
+            </div>
+          </section>
+
+        </div>
+      </section>
+    </main>
+
+    <!-- ===================== BOTTOM SHEETS / MODALS ===================== -->
+
+    <!-- MENU SHEET -->
+    <aside id="sheetMenu" class="sheet is-hidden" aria-label="Menu Sheet">
+      <div class="sheet-dim" data-close="sheetMenu"></div>
+      <div class="sheet-panel" role="dialog" aria-modal="true">
+        <div class="sheet-head">
+          <h3>메뉴</h3>
+          <button class="icon-btn" data-close="sheetMenu" aria-label="Close"><span class="i-x"></span></button>
+        </div>
+
+        <div class="sheet-body">
+          <button class="sheet-item" id="btnSave2">💾 저장하기</button>
+          <button class="sheet-item" id="btnLoad">📂 불러오기</button>
+          <button class="sheet-item" id="btnRestart">🔁 처음부터</button>
+          <button class="sheet-item danger" id="btnResetEndings">🗑 엔딩 기록 초기화</button>
+        </div>
+
+        <div class="sheet-foot">
+          <p class="mini">
+            Corruption이 높아질수록 캐릭터가 왜곡돼요.<br>
+            배드엔딩 조건: 🩸10 / ☠️10 / 🧠0 / 🧙0
+          </p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- LOG MODAL -->
+    <aside id="modalLog" class="modal is-hidden" aria-label="Log Modal">
+      <div class="modal-dim" data-close="modalLog"></div>
+      <div class="modal-panel" role="dialog" aria-modal="true">
+        <div class="modal-head">
+          <h3>대화 로그</h3>
+          <button class="icon-btn" data-close="modalLog" aria-label="Close"><span class="i-x"></span></button>
+        </div>
+        <div class="modal-body">
+          <div id="logList" class="log-list">
+            <!-- JS에서 누적 -->
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ENDINGS MODAL -->
+    <aside id="modalEndings" class="modal is-hidden" aria-label="Endings Modal">
+      <div class="modal-dim" data-close="modalEndings"></div>
+      <div class="modal-panel" role="dialog" aria-modal="true">
+        <div class="modal-head">
+          <h3>모은 엔딩</h3>
+          <button class="icon-btn" data-close="modalEndings" aria-label="Close"><span class="i-x"></span></button>
+        </div>
+        <div class="modal-body">
+          <div id="endingGrid" class="ending-grid">
+            <!-- JS에서 렌더 -->
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ENDING OVERLAY (게임 중 엔딩 도달 시) -->
+    <aside id="overlayEnding" class="overlay is-hidden" aria-label="Ending Overlay">
+      <div class="overlay-panel" role="dialog" aria-modal="true">
+        <div class="overlay-badge" id="endingType">BAD END</div>
+        <h3 class="overlay-title" id="endingTitle">ERASURE</h3>
+        <p class="overlay-text" id="endingText">
+          세계는 스스로를 지키기 위해, 베르를 삭제했다.
+        </p>
+        <div class="overlay-actions">
+          <button class="btn" id="btnEndingHome">타이틀로</button>
+          <button class="btn ghost" id="btnEndingContinue">최근 선택부터</button>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- JS -->
+  <script src="./js/storage.js"></script>
+  <script src="./js/title.js"></script>
+  <script src="./js/game.js"></script>
+</body>
+</html>

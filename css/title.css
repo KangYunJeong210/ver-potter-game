@@ -1,0 +1,95 @@
+/* css/title.css */
+/* -----------------------------
+   Title Screen styling
+-------------------------------- */
+
+.screen-title{
+  align-items:center;
+  justify-content:center;
+}
+
+.title-wrap{
+  width: min(520px, 100%);
+  border-radius: var(--radius2);
+  background: rgba(15,23,48,.45);
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: var(--shadow);
+  padding: 22px 18px 18px;
+  backdrop-filter: blur(12px);
+  position:relative;
+  overflow:hidden;
+}
+
+.title-wrap::before{
+  content:"";
+  position:absolute; inset:-1px;
+  background:
+    radial-gradient(600px 380px at 18% 18%, rgba(139,177,255,.20), rgba(0,0,0,0) 58%),
+    radial-gradient(520px 420px at 86% 26%, rgba(195,168,255,.16), rgba(0,0,0,0) 62%),
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0));
+  pointer-events:none;
+}
+
+.badge{
+  position:relative;
+  display:inline-block;
+  padding: 7px 10px;
+  border-radius: 999px;
+  font-weight:800;
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(233,238,255,.78);
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.05);
+}
+
+.logo{
+  position:relative;
+  margin: 14px 0 10px;
+  line-height: 1.02;
+}
+.logo-top{
+  display:block;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: .02em;
+}
+.logo-sub{
+  display:block;
+  font-size: 38px;
+  font-weight: 900;
+  letter-spacing: .02em;
+  background: linear-gradient(135deg, rgba(139,177,255,.95), rgba(195,168,255,.9));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color: transparent;
+}
+
+.desc{
+  position:relative;
+  margin: 0 0 18px;
+  color: rgba(233,238,255,.78);
+  line-height: 1.55;
+  font-size: 14px;
+}
+
+.title-actions{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.title-footer{
+  position:relative;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+.hint{
+  margin:0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(233,238,255,.62);
+}
