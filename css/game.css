@@ -22,7 +22,6 @@
 ============================= */
 
 .portrait{
-  width: 100%;
   height: clamp(360px, 55vh, 680px);
   border-radius: var(--radius2);
   border: 1px solid rgba(255,255,255,.08);
@@ -247,3 +246,4 @@
   .portrait{ height: clamp(320px, 46vh, 520px); }
   .text{ min-height: 64px; }
 }
+
