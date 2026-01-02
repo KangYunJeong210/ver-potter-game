@@ -235,8 +235,9 @@
 
 /* Super small height devices */
 @media (max-height: 670px){
-  .portrait{ min-height: 180px; }
+  .portrait{ min-height: 330px; }
   .text{ min-height: 66px; }
 }
+
 
 
